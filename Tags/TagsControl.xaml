@@ -1,0 +1,120 @@
+﻿<UserControl x:Class="KnowledgeBase.Tags.TagsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KnowledgeBase.Tags"          
+             xmlns:conterters="clr-namespace:KnowledgeBase.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <conterters:TagNameToColorConverter x:Key="TagNameToColorConverter"/>
+    </UserControl.Resources>
+    <Grid Background="#fafafa">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="Available tags">
+            <Grid x:Name="AvailableTagsContainer">
+                <ItemsControl ItemsSource="{Binding AvailableTags}" Margin="12,0,0,0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Background="{Binding Converter={StaticResource TagNameToColorConverter}}" Margin="5" Command="{Binding ElementName=AvailableTagsContainer, Path=DataContext.SelectTag}" CommandParameter="{Binding}">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border CornerRadius="3" Background="{TemplateBinding Background}">
+                                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                                <TextBlock Text="{Binding}" Margin="4,0,4,0"/>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+                <StackPanel Orientation="Horizontal" Height="24" VerticalAlignment="Top" HorizontalAlignment="Right">
+                    <TextBox Text="Search" VerticalAlignment="Center" BorderThickness="0" Margin="0,0,10,0"/>
+                    <TextBox Width="100" VerticalAlignment="Center" BorderThickness="0,0,0,1" Text="{Binding ElementName=AvailableTagsContainer, Path=DataContext.TagSearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                    <Button Width="16" Height="16" Grid.ColumnSpan="2" HorizontalAlignment="Right"  VerticalAlignment="Center" Command="{Binding ClearTagSearchText}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border>
+                                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter Property="Background" Value="Black"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="False">
+                                                    <Setter Property="Background" Value="#757575"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <Rectangle Width="10" Height="10">
+                            <Rectangle.Fill>
+                                <VisualBrush>
+                                    <VisualBrush.Visual>
+                                        <Canvas>
+                                            <Path Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Background}" Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                                        </Canvas>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Used tags" Grid.Column="1">
+            <Grid>
+                <ItemsControl ItemsSource="{Binding UsedTags}" Margin="12,0,0,0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Background="{Binding Converter={StaticResource TagNameToColorConverter}}" Margin="5" Command="{Binding ElementName=AvailableTagsContainer, Path=DataContext.RemoveTag}" CommandParameter="{Binding}">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border CornerRadius="3" Background="{TemplateBinding Background}">
+                                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                                <TextBlock Text="{Binding}" Margin="4,0,4,0"/>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</UserControl>
