@@ -10,43 +10,51 @@
     <UserControl.Resources>
         <conterters:TagNameToColorConverter x:Key="TagNameToColorConverter"/>
     </UserControl.Resources>
-    <Grid Background="#fafafa">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <GroupBox Header="Available tags">
+    <Grid>        
+        <GroupBox Header="Tags">
             <Grid x:Name="AvailableTagsContainer">
-                <ItemsControl ItemsSource="{Binding AvailableTags}" Margin="12,0,0,0">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Background="{Binding Converter={StaticResource TagNameToColorConverter}}" Margin="5" Command="{Binding ElementName=AvailableTagsContainer, Path=DataContext.SelectTag}" CommandParameter="{Binding}">
-                                <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Button">
-                                                    <Border CornerRadius="3" Background="{TemplateBinding Background}">
-                                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                    </Border>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </Button.Style>
-                                <TextBlock Text="{Binding}" Margin="4,0,4,0"/>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-                <StackPanel Orientation="Horizontal" Height="24" VerticalAlignment="Top" HorizontalAlignment="Right">
-                    <TextBox Text="Search" VerticalAlignment="Center" BorderThickness="0" Margin="0,0,10,0"/>
-                    <TextBox Width="100" VerticalAlignment="Center" BorderThickness="0,0,0,1" Text="{Binding ElementName=AvailableTagsContainer, Path=DataContext.TagSearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+                    <ItemsControl ItemsSource="{Binding Tags}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Background="{Binding Converter={StaticResource TagNameToColorConverter}, Path=Value}" Margin="5" Command="{Binding ElementName=AvailableTagsContainer, Path=DataContext.SelectTag}" CommandParameter="{Binding}" BorderBrush="Transparent" BorderThickness="0">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border CornerRadius="3" Background="{TemplateBinding Background}" x:Name="ButtonBorder">
+                                                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="Black"/>
+                                                                <Setter TargetName="ButtonBorder" Property="BorderThickness" Value="1.5"/>
+                                                            </DataTrigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                    <TextBlock Text="{Binding Value}" Margin="4,0,4,0"/>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+                <StackPanel Orientation="Horizontal" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="Search" VerticalAlignment="Center" Margin="0,0,10,0" Background="Transparent"/>
+                    <TextBox Width="100" VerticalAlignment="Center" BorderThickness="0,0,0,1" Text="{Binding ElementName=AvailableTagsContainer, Path=DataContext.TagSearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Background="Transparent"/>
                     <Button Width="16" Height="16" Grid.ColumnSpan="2" HorizontalAlignment="Right"  VerticalAlignment="Center" Command="{Binding ClearTagSearchText}">
                         <Button.Style>
                             <Style TargetType="Button">
@@ -84,37 +92,5 @@
                 </StackPanel>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Used tags" Grid.Column="1">
-            <Grid>
-                <ItemsControl ItemsSource="{Binding UsedTags}" Margin="12,0,0,0">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Background="{Binding Converter={StaticResource TagNameToColorConverter}}" Margin="5" Command="{Binding ElementName=AvailableTagsContainer, Path=DataContext.RemoveTag}" CommandParameter="{Binding}">
-                                <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Button">
-                                                    <Border CornerRadius="3" Background="{TemplateBinding Background}">
-                                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                    </Border>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </Button.Style>
-                                <TextBlock Text="{Binding}" Margin="4,0,4,0"/>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </Grid>
-        </GroupBox>
-
     </Grid>
 </UserControl>

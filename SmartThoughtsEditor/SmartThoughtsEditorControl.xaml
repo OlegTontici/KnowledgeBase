@@ -474,14 +474,14 @@
             </Rectangle>
         </Button>
         <Grid Grid.Row="1" Grid.Column="0" x:Name="EditSourceContainer" Width="0" >
-            <TextBox x:Name="editSource"                 
+            <TextBox x:Name="editSource"    
                  VerticalAlignment="Stretch"
                  HorizontalAlignment="Stretch"
                  TextWrapping="Wrap"
                  AcceptsReturn="True"
                  Margin="5,5,5,40" 
-                 BorderThickness="0,0,0,1"
-                 VerticalScrollBarVisibility="Auto" FontFamily="Consolas" Text="{Binding SmartThoughtUnderEdit.FormattedContent, Mode=TwoWay}" >
+                 BorderThickness="1"
+                 VerticalScrollBarVisibility="Auto" FontFamily="Consolas" Text="{Binding SmartThoughtUnderEdit.FormattedContent, Mode=TwoWay}">
             </TextBox>
             <Button Width="70" Height="30" Content="Save" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding SaveSmartThoughtCommand}"/>
         </Grid>

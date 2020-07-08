@@ -11,15 +11,13 @@ namespace KnowledgeBase.Tags
 {
     public class TagsControlDataContext : INotifyPropertyChanged
     {
-        private readonly List<string> tags = new List<string> { "DDD" ,"CQRS" ,"Event Sourcing" };
+        private readonly List<Tag> tags = new List<Tag> { new Tag { Value = "DDD" }, new Tag { Value = "CQRS" } , new Tag { Value = "Event Sourcing" } };
 
-        public ObservableCollection<string> AvailableTags { get; set; }
-        public ObservableCollection<string> UsedTags { get; set; }
+        public ObservableCollection<Tag> Tags { get; set; }
 
         public TagsControlDataContext()
         {
-            AvailableTags = new ObservableCollection<string>(tags);
-            UsedTags = new ObservableCollection<string>();
+            Tags = new ObservableCollection<Tag>(tags);
         }
 
         private ICommand selectTag;
@@ -27,34 +25,22 @@ namespace KnowledgeBase.Tags
         {
             get
             {
-                return selectTag ?? (selectTag = new CommandExecutor<string>(tag => 
+                return selectTag ?? (selectTag = new CommandExecutor<Tag>(tag => 
                 {
-                    var selectedTag = AvailableTags.FirstOrDefault(x => x == tag);
-                    AvailableTags.Remove(selectedTag);
+                    tag.IsSelected = !tag.IsSelected;
 
-                    UsedTags.Add(selectedTag);
-
-                    TagSelected?.Invoke(this, selectedTag);
+                    if (tag.IsSelected)
+                    {
+                        TagSelected?.Invoke(this, tag.Value);
+                    }
+                    else
+                    {
+                        TagRemoved?.Invoke(this, tag.Value);
+                    }                    
                 }));
             }
         }
-
-        private ICommand removeTag;
-        public ICommand RemoveTag
-        {
-            get
-            {
-                return removeTag ?? (removeTag = new CommandExecutor<string>(tag =>
-                {
-                    var selectedTag = UsedTags.FirstOrDefault(x => x == tag);
-                    UsedTags.Remove(selectedTag);
-
-                    AvailableTags.Add(selectedTag);
-
-                    TagRemoved?.Invoke(this, selectedTag);
-                }));
-            }
-        }
+              
 
         private string tagSearchText;
 
@@ -68,22 +54,22 @@ namespace KnowledgeBase.Tags
                     tagSearchText = value;
                     NotifyPropertyChanged(nameof(TagSearchText));
 
-                    AvailableTags.Clear();
+                    Tags.Clear();
 
                     if (string.IsNullOrWhiteSpace(tagSearchText))
                     {
-                        var usedTags = UsedTags.ToList();
+                        var usedTags = Tags.Where(t => t.IsSelected).ToList();
                         foreach (var tag in tags.Except(usedTags).ToList())
                         {
-                            AvailableTags.Add(tag);
+                            Tags.Add(tag);
                         }
                     }
                     else
                     {
-                        var usedTags = UsedTags.ToList();
-                        foreach (var tag in tags.Except(usedTags).Where(t => t.IndexOf(tagSearchText, StringComparison.InvariantCultureIgnoreCase) != -1).ToList())
+                        var usedTags = Tags.Where(t => t.IsSelected).ToList();
+                        foreach (var tag in tags.Except(usedTags).Where(t => t.Value.IndexOf(tagSearchText, StringComparison.InvariantCultureIgnoreCase) != -1).ToList())
                         {
-                            AvailableTags.Add(tag);
+                            Tags.Add(tag);
                         }
                     }
                 }
@@ -110,5 +96,24 @@ namespace KnowledgeBase.Tags
 
         public EventHandler<string> TagSelected { get; set; }
         public EventHandler<string> TagRemoved { get; set; }
+
+        public class Tag : INotifyPropertyChanged
+        {
+            public string Value { get; set; }
+            private bool isSelected;
+
+            public bool IsSelected
+            {
+                get { return isSelected; }
+                set 
+                { 
+                    isSelected = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelected)));
+                }
+            }
+
+
+            public event PropertyChangedEventHandler PropertyChanged;
+        }
     }
 }

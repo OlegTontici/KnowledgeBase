@@ -34,11 +34,11 @@ namespace KnowledgeBase.Converters
 
             if (brush == null)
             {
-                byte r = Convert.ToByte(random.Next(0, 255));
-                var g = Convert.ToByte(random.Next(0, 255));
-                var b = Convert.ToByte(random.Next(0, 255));
+                byte r = Convert.ToByte(random.Next(180, 255));
+                var g = Convert.ToByte(random.Next(180, 255));
+                var b = Convert.ToByte(random.Next(180, 255));
 
-                var tagColor = new SolidColorBrush(Color.FromArgb(100, r, g, b));
+                var tagColor = new SolidColorBrush(Color.FromArgb(255, r, g, b));
 
                 tagColors.Add(tagName, tagColor);
 

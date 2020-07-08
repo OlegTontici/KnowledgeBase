@@ -7,14 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" WindowState="Maximized" FontSize="14">
     <Grid x:Name="MainGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
         <ContentControl Content="{Binding MainContent}">
             
         </ContentControl>
-        <ContentControl Content="{Binding TagsControl}" Grid.Row="1"  x:Name="TagsContainer" Height="150">
+        <ContentControl Content="{Binding TagsControl}" Grid.Column="1" x:Name="TagsContainer" Width="210">
             <ContentControl.Style>
                 <Style TargetType="ContentControl">
                     <Style.Triggers>
@@ -22,7 +22,7 @@
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="Height" To="150" Duration="0:0:0.2">
+                                        <DoubleAnimation Storyboard.TargetProperty="Width" To="210" Duration="0:0:0.2">
                                             <DoubleAnimation.EasingFunction>
                                                 <ExponentialEase EasingMode="EaseOut" Exponent="4"/>
                                             </DoubleAnimation.EasingFunction>
@@ -33,7 +33,7 @@
                             <DataTrigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="Height" To="0" Duration="0:0:0.0">
+                                        <DoubleAnimation Storyboard.TargetProperty="Width" To="0" Duration="0:0:0.0">
                                             <DoubleAnimation.EasingFunction>
                                                 <ExponentialEase EasingMode="EaseOut" Exponent="4"/>
                                             </DoubleAnimation.EasingFunction>
