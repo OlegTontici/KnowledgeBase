@@ -43,7 +43,12 @@ namespace KnowledgeBase.SmartThoughtsEditor
                 DoubleAnimation da = new DoubleAnimation
                 {
                     To = this.ActualWidth / 2,
-                    Duration = TimeSpan.FromMilliseconds(300)
+                    Duration = TimeSpan.FromMilliseconds(200),
+                    EasingFunction = new ExponentialEase
+                    {
+                         EasingMode = EasingMode.EaseOut,
+                         Exponent = 4
+                    }
                 };
 
                 EditSourceContainer.BeginAnimation(Grid.WidthProperty, da);
@@ -53,7 +58,7 @@ namespace KnowledgeBase.SmartThoughtsEditor
                 DoubleAnimation da = new DoubleAnimation
                 {
                     To = 0,
-                    Duration = TimeSpan.FromMilliseconds(300)
+                    Duration = TimeSpan.FromMilliseconds(0),
                 };
 
                 EditSourceContainer.BeginAnimation(Grid.WidthProperty, da);

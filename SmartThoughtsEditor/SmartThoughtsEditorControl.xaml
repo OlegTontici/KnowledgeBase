@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:KnowledgeBase.SmartThoughtsEditor"
+             xmlns:converters="clr-namespace:KnowledgeBase.Converters"
              xmlns:md="clr-namespace:Markdown.Xaml;assembly=Markdown.Xaml"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -405,6 +406,8 @@
 
         <md:TextToFlowDocumentConverter x:Key="TextToFlowDocumentConverter" 
                                            Markdown="{StaticResource Markdown}"/>
+
+        <converters:TagNameToColorConverter x:Key="TagNameToColorConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -477,38 +480,83 @@
         
         <Grid Grid.Row="1" Grid.Column="0" x:Name="EditSourceContainer" Width="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <StackPanel Orientation="Vertical" Margin="5">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Title:" FontWeight="SemiBold" FontSize="14"/>
+                    <TextBlock Text="Title:" FontWeight="SemiBold" FontSize="16"/>
                     <TextBox HorizontalAlignment="Stretch" Height="20" Margin="0,4,0,0" TextWrapping="Wrap" BorderThickness="0,0,0,1" Text="{Binding SmartThoughtUnderEdit.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="0,10,0,0">
-                    <TextBlock Text="Description:" FontWeight="SemiBold" FontSize="14"/>
-                    <TextBox HorizontalAlignment="Stretch" Height="Auto" Margin="0,4,0,0" TextWrapping="Wrap" BorderThickness="0,0,0,1" Text="{Binding SmartThoughtUnderEdit.Preview , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    <TextBlock Text="Description:" FontWeight="SemiBold" FontSize="16"/>
+                    <TextBox HorizontalAlignment="Stretch" Height="Auto" Margin="0,4,0,0" TextWrapping="Wrap" AcceptsReturn="True" BorderThickness="0,0,0,1" Text="{Binding SmartThoughtUnderEdit.Preview , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="0,10,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Tags:" FontWeight="SemiBold" FontSize="16" VerticalAlignment="Center"/>
+                        <Button Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Style="{StaticResource IconButtonStyle}">
+                            <Rectangle Width="14" Height="14">
+                                <Rectangle.Fill>
+                                    <VisualBrush>
+                                        <VisualBrush.Visual>
+                                            <Canvas>
+                                                <Path Fill="Black" Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+                                            </Canvas>
+                                        </VisualBrush.Visual>
+                                    </VisualBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </Button>
+                    </StackPanel>
+                    <ItemsControl ItemsSource="{Binding SmartThoughtUnderEdit.Tags}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Background="{Binding Converter={StaticResource TagNameToColorConverter}}" Margin="5" BorderBrush="Transparent" BorderThickness="0">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border CornerRadius="3" Background="{TemplateBinding Background}" x:Name="ButtonBorder">
+                                                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                    <TextBlock Text="{Binding}" Margin="4,0,4,0"/>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+
                 </StackPanel>
             </StackPanel>
-            <TextBlock Text="Content:" FontWeight="SemiBold" FontSize="14"  Grid.Row="1" Margin="5,10,0,0" />
+            <TextBlock Text="Content:" FontWeight="SemiBold" FontSize="16"  Grid.Row="1" Margin="5,10,0,0" />
             <TextBox x:Name="editSource"    
                  Grid.Row="1"
                  VerticalAlignment="Stretch"
                  HorizontalAlignment="Stretch"
                  TextWrapping="Wrap"
                  AcceptsReturn="True"
-                 Margin="5,27,5,40" 
+                 Margin="5,34,5,4" 
                  BorderThickness="1"
                  VerticalScrollBarVisibility="Auto" FontFamily="Consolas" Text="{Binding SmartThoughtUnderEdit.FormattedContent, Mode=TwoWay}">
             </TextBox>
-            <!--<Button Width="70" Height="30" Content="Save" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding SaveSmartThoughtCommand}"/>-->
-        </Grid>
-        
+        </Grid>       
 
         <FlowDocumentScrollViewer Grid.Row="1"
                                   Grid.Column="1"
                                   VerticalAlignment="Stretch"
                                   HorizontalAlignment="Stretch"
+                                  VerticalScrollBarVisibility="Auto"
                                   Margin="5"
                                   Document="{Binding ElementName=editSource, Path=Text, Converter={StaticResource TextToFlowDocumentConverter}}" />
 
