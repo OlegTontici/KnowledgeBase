@@ -40,8 +40,25 @@ namespace KnowledgeBase.SmartThoughtsEditor
             }
         }
 
+        private ICommand editSmartThoughtTags;
+
+        public ICommand EditSmartThoughtTags
+        {
+            get
+            {
+                return editSmartThoughtTags ?? (editSmartThoughtTags = new CommandExecutor(() => 
+                {
+                    SmartThoughtTagEditRequired.Invoke(this, new SmartThoughtTagsEditor());
+                }));
+            }
+        }
+
+
 
         public EventHandler CloseRequired { get; set; }
+        public EventHandler<SmartThoughtTagsEditor> SmartThoughtTagEditRequired { get; set; }
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

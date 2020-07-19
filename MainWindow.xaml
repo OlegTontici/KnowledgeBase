@@ -46,5 +46,6 @@
                 </Style>
             </ContentControl.Style>
         </ContentControl>
+        <ContentControl Content="{Binding ModalWindow}" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

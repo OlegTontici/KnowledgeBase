@@ -64,9 +64,15 @@ namespace KnowledgeBase
             }
         }
 
+        public ModalWindow ModalWindow { get; set; }
+
 
         public MainWindowDataContext()
         {
+            var modalWidowDataContext = new ModalWindowsDataContext();
+            ModalWindow = new ModalWindow(modalWidowDataContext);
+
+
             allSmartThoughts = new ObservableCollection<SmartThought>
             {
                 new SmartThought{ Tags = new List<string> { "DDD" }, Title = "DDD" , Preview = "Easing (or timing function) is what makes animations and motions look natural and clean. Nohthing really moves linearly in our physical world or else will look unnatural. Motions that are linear usually trigger suspicion in our brain. When we open a drawer or throw a ball, there is always a change in the speed over time and in general we specify the progress or the rate of change of a parameter over time using easing functions.Following is the list of some default easing functions and also you can utilize the bezier curve to create your own custom versions.", FormattedContent = @"# Markdown.Xaml #
@@ -232,6 +238,10 @@ and how to style the output to appear the way you desire.
                 MainContent = smartThoughtsPreviewControl;
 
                 ShouldTagsBeShown = true;
+            };
+            smartThoughtsEditorControlDataContext.SmartThoughtTagEditRequired += (s, a) =>
+            {
+                modalWidowDataContext.ShowModalContent(a);
             };
 
             tagsControlDataContext.TagSelected += (s, a) =>
