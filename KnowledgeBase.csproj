@@ -71,6 +71,7 @@
     <Compile Include="SmartThoughtsEditor\SmartThoughtTagsEditor.xaml.cs">
       <DependentUpon>SmartThoughtTagsEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SmartThoughtsEditor\SmartThoughtTagsEditorDataContext.cs" />
     <Compile Include="SmartThoughtsPreview\SmartThoughtsPreviewControlDataContext.cs" />
     <Compile Include="Converters\TagNameToColorConverter.cs" />
     <Compile Include="Tag.cs" />

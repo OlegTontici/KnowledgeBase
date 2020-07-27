@@ -48,7 +48,8 @@ namespace KnowledgeBase.SmartThoughtsEditor
             {
                 return editSmartThoughtTags ?? (editSmartThoughtTags = new CommandExecutor(() => 
                 {
-                    SmartThoughtTagEditRequired.Invoke(this, new SmartThoughtTagsEditor());
+                    var dataContext = new SmartThoughtTagsEditorDataContext(new List<Tag>(), smartThoughtUnderEdit.Tags.Select(x => new Tag(x)).ToList());
+                    SmartThoughtTagEditRequired.Invoke(this, new SmartThoughtTagsEditor(dataContext));
                 }));
             }
         }

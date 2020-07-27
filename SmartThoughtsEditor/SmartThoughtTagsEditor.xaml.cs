@@ -20,9 +20,12 @@ namespace KnowledgeBase.SmartThoughtsEditor
     /// </summary>
     public partial class SmartThoughtTagsEditor : UserControl
     {
-        public SmartThoughtTagsEditor()
+        public new SmartThoughtTagsEditorDataContext DataContext { get; }
+        public SmartThoughtTagsEditor(SmartThoughtTagsEditorDataContext smartThoughtTagsEditorDataContext)
         {
             InitializeComponent();
+            DataContext = smartThoughtTagsEditorDataContext;
+            base.DataContext = DataContext;
         }
     }
 }
