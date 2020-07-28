@@ -6,22 +6,27 @@
              xmlns:local="clr-namespace:KnowledgeBase.SmartThoughtsEditor"
              xmlns:conterters="clr-namespace:KnowledgeBase.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="SmartThoughtTagsEditorControl">
     <UserControl.Resources>
         <conterters:TagNameToColorConverter x:Key="TagNameToColorConverter"/>
     </UserControl.Resources>
-    <Border VerticalAlignment="Center" HorizontalAlignment="Center" Width="360" Height="Auto" Background="White" CornerRadius="2">
+    <Border VerticalAlignment="Center" HorizontalAlignment="Center" Width="360" Height="400" Background="White" CornerRadius="2">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
             <GroupBox Header="Tags">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
                     <ItemsControl ItemsSource="{Binding UsedTags}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Button Background="{Binding Converter={StaticResource TagNameToColorConverter}, Path=Value}" Margin="5" Command="{Binding ElementName=AvailableTagsContainer, Path=DataContext.SelectTag}" CommandParameter="{Binding}" BorderBrush="Transparent" BorderThickness="0">
+                                <Button Background="{Binding Converter={StaticResource TagNameToColorConverter}, Path=Value}" Margin="5" Command="{Binding ElementName=SmartThoughtTagsEditorControl, Path=DataContext.StopUsingTagCommand}" CommandParameter="{Binding}" BorderBrush="Transparent" BorderThickness="0">
                                     <Button.Style>
                                         <Style TargetType="Button">
                                             <Setter Property="Template">
@@ -53,11 +58,16 @@
                     </ItemsControl>
                 </ScrollViewer>
             </GroupBox>
-            <GroupBox Header="Available tags" Grid.Column="1" VerticalAlignment="Top">
-                <StackPanel>
+            <GroupBox Header="Available tags" Grid.Column="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="24"/>
+                    </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <TextBlock Text="Search" VerticalAlignment="Center" Margin="0,0,10,0" Background="Transparent"/>
-                        <TextBox Width="100" VerticalAlignment="Center" BorderThickness="0,0,0,1" Text="{Binding ElementName=AvailableTagsContainer, Path=DataContext.TagSearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Background="Transparent"/>
+                        <TextBox Width="100" VerticalAlignment="Center" BorderThickness="0,0,0,1" Text="{Binding TagSearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Background="Transparent"/>
                         <Button Width="16" Height="16" Grid.ColumnSpan="2" HorizontalAlignment="Right"  VerticalAlignment="Center" Command="{Binding ClearTagSearchText}">
                             <Button.Style>
                                 <Style TargetType="Button">
@@ -93,8 +103,65 @@
                             </Rectangle>
                         </Button>
                     </StackPanel>
-                </StackPanel>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,10,0,0" Grid.Row="1" x:Name="AvailableTagsScroll">
+                        <ItemsControl ItemsSource="{Binding AvailableTags}" x:Name="AvailableTags">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Background="{Binding Converter={StaticResource TagNameToColorConverter}, Path=Value}" Margin="5" Command="{Binding ElementName=SmartThoughtTagsEditorControl, Path=DataContext.UseTagCommand}" CommandParameter="{Binding}" BorderBrush="Transparent" BorderThickness="0">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Border CornerRadius="3" Background="{TemplateBinding Background}" x:Name="ButtonBorder">
+                                                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                                    <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="Black"/>
+                                                                    <Setter TargetName="ButtonBorder" Property="BorderThickness" Value="1.5"/>
+                                                                </DataTrigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+                                        <TextBlock Text="{Binding Value}" Margin="4,0,4,0"/>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </ScrollViewer>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Height="20" x:Name="NewTag"/>
+                        <Button Width="26" Height="26" Grid.Column="2" Command="{Binding AddNewTagCommand}" CommandParameter="{Binding ElementName=NewTag,Path=Text}" Click="Button_Click" Style="{DynamicResource IconButtonStyle}">
+                            <Rectangle Width="12" Height="12">
+                                <Rectangle.Fill>
+                                    <VisualBrush>
+                                        <VisualBrush.Visual>
+                                            <Canvas>
+                                                <Path Fill="Black" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </Canvas>
+                                        </VisualBrush.Visual>
+                                    </VisualBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </Button>
+                    </Grid>
+                </Grid>
             </GroupBox>
+
+            <Button Grid.Column="1" Grid.Row="1" Width="70" Height="30" Content="Save" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="1" Command="{Binding SaveSmartThoughtTagsCommand}"/>
         </Grid>
     </Border>
 </UserControl>

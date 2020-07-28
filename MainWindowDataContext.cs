@@ -23,6 +23,8 @@ namespace KnowledgeBase
 
         private readonly List<string> usedTags;
 
+        private readonly Resources.Tags _tags;
+
         private FrameworkElement mainContent;
         public FrameworkElement MainContent
         {
@@ -69,6 +71,8 @@ namespace KnowledgeBase
 
         public MainWindowDataContext()
         {
+            _tags = new Resources.Tags();
+
             var modalWidowDataContext = new ModalWindowsDataContext();
             ModalWindow = new ModalWindow(modalWidowDataContext);
 
@@ -208,7 +212,7 @@ and how to style the output to appear the way you desire.
 
             usedTags = new List<string>();
 
-            var tagsControlDataContext = new TagsControlDataContext();
+            var tagsControlDataContext = new TagsControlDataContext(_tags);
             TagsControl = new TagsControl(tagsControlDataContext);
 
            
@@ -216,7 +220,7 @@ and how to style the output to appear the way you desire.
             var smartThoughtsEditorControlDataContext = new SmartThoughtsEditorControlDataContext(st => 
             {
 
-            });
+            }, _tags);
             smartThoughtsEditorControl = new SmartThoughtsEditorControl(smartThoughtsEditorControlDataContext);
 
 
@@ -242,6 +246,11 @@ and how to style the output to appear the way you desire.
             smartThoughtsEditorControlDataContext.SmartThoughtTagEditRequired += (s, a) =>
             {
                 modalWidowDataContext.ShowModalContent(a);
+            };
+
+            smartThoughtsEditorControlDataContext.SmartThoughtTagCloseRequired += (s, a) =>
+            {
+                modalWidowDataContext.HideModal();
             };
 
             tagsControlDataContext.TagSelected += (s, a) =>

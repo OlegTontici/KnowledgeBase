@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -48,7 +49,7 @@ namespace KnowledgeBase
 
         public ModalWindowsDataContext()
         {
-            ModalContent = new Button { Width = 40, Height = 40 };
+            
         }
 
         public void ShowModalContent(FrameworkElement content)

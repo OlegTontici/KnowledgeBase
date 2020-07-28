@@ -54,7 +54,7 @@
                 </ScrollViewer>
                 <StackPanel Orientation="Horizontal" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock Text="Search" VerticalAlignment="Center" Margin="0,0,10,0" Background="Transparent"/>
-                    <TextBox Width="100" VerticalAlignment="Center" BorderThickness="0,0,0,1" Text="{Binding ElementName=AvailableTagsContainer, Path=DataContext.TagSearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Background="Transparent"/>
+                    <TextBox Width="100" VerticalAlignment="Center" BorderThickness="0,0,0,1" Text="{Binding TagSearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Background="Transparent"/>
                     <Button Width="16" Height="16" Grid.ColumnSpan="2" HorizontalAlignment="Right"  VerticalAlignment="Center" Command="{Binding ClearTagSearchText}">
                         <Button.Style>
                             <Style TargetType="Button">

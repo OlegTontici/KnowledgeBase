@@ -11,13 +11,14 @@ namespace KnowledgeBase.Tags
 {
     public class TagsControlDataContext : INotifyPropertyChanged
     {
-        private readonly List<Tag> tags = new List<Tag> { new Tag { Value = "DDD" }, new Tag { Value = "CQRS" } , new Tag { Value = "Event Sourcing" } };
+        private readonly List<Tag> _tags;
 
         public ObservableCollection<Tag> Tags { get; set; }
 
-        public TagsControlDataContext()
+        public TagsControlDataContext(Resources.Tags tags)
         {
-            Tags = new ObservableCollection<Tag>(tags);
+            _tags = tags.GetAll().Select(x => new Tag { Value = x.Value }).ToList();
+            Tags = new ObservableCollection<Tag>(_tags);
         }
 
         private ICommand selectTag;
@@ -59,7 +60,7 @@ namespace KnowledgeBase.Tags
                     if (string.IsNullOrWhiteSpace(tagSearchText))
                     {
                         var usedTags = Tags.Where(t => t.IsSelected).ToList();
-                        foreach (var tag in tags.Except(usedTags).ToList())
+                        foreach (var tag in _tags.Except(usedTags).ToList())
                         {
                             Tags.Add(tag);
                         }
@@ -67,7 +68,7 @@ namespace KnowledgeBase.Tags
                     else
                     {
                         var usedTags = Tags.Where(t => t.IsSelected).ToList();
-                        foreach (var tag in tags.Except(usedTags).Where(t => t.Value.IndexOf(tagSearchText, StringComparison.InvariantCultureIgnoreCase) != -1).ToList())
+                        foreach (var tag in _tags.Except(usedTags).Where(t => t.Value.IndexOf(tagSearchText, StringComparison.InvariantCultureIgnoreCase) != -1).ToList())
                         {
                             Tags.Add(tag);
                         }
@@ -78,19 +79,22 @@ namespace KnowledgeBase.Tags
 
         private ICommand clearTagSearchText;
 
+        public ICommand ClearTagSearchText
+        {
+            get
+            {
+                return clearTagSearchText ?? (clearTagSearchText = new CommandExecutor(() =>
+                {
+                    TagSearchText = string.Empty;
+                }));
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public ICommand ClearTagSearchText
-        {
-            get { return clearTagSearchText ?? (clearTagSearchText = new CommandExecutor(() => 
-            {
-                TagSearchText = string.Empty;
-            })); }
         }
 
 

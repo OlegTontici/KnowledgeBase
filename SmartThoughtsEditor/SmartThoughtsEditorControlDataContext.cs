@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -11,10 +12,12 @@ namespace KnowledgeBase.SmartThoughtsEditor
     public class SmartThoughtsEditorControlDataContext : INotifyPropertyChanged
     {
         private readonly Action<SmartThought> saveAction;
+        private readonly Resources.Tags _tags;
 
-        public SmartThoughtsEditorControlDataContext(Action<SmartThought> saveAction)
+        public SmartThoughtsEditorControlDataContext(Action<SmartThought> saveAction, Resources.Tags tags)
         {
             this.saveAction = saveAction;
+            _tags = tags;
         }
 
         private readonly ICommand saveSmartThoughtCommand;
@@ -48,7 +51,12 @@ namespace KnowledgeBase.SmartThoughtsEditor
             {
                 return editSmartThoughtTags ?? (editSmartThoughtTags = new CommandExecutor(() => 
                 {
-                    var dataContext = new SmartThoughtTagsEditorDataContext(new List<Tag>(), smartThoughtUnderEdit.Tags.Select(x => new Tag(x)).ToList());
+                    var dataContext = new SmartThoughtTagsEditorDataContext(_tags, smartThoughtUnderEdit.Tags.Select(x => new Tag(x)).ToList(), tags => 
+                    {                        
+                        SmartThoughtUnderEdit.Tags = tags.Select(x => x.Value).ToList();
+                        SmartThoughtTagCloseRequired?.Invoke(this, null);
+                        SmartThoughtUnderEdit = SmartThoughtUnderEdit;
+                    });
                     SmartThoughtTagEditRequired.Invoke(this, new SmartThoughtTagsEditor(dataContext));
                 }));
             }
@@ -58,6 +66,7 @@ namespace KnowledgeBase.SmartThoughtsEditor
 
         public EventHandler CloseRequired { get; set; }
         public EventHandler<SmartThoughtTagsEditor> SmartThoughtTagEditRequired { get; set; }
+        public EventHandler SmartThoughtTagCloseRequired { get; set; }
 
 
 

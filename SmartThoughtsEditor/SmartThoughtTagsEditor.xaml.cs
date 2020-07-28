@@ -27,5 +27,10 @@ namespace KnowledgeBase.SmartThoughtsEditor
             DataContext = smartThoughtTagsEditorDataContext;
             base.DataContext = DataContext;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            AvailableTagsScroll.ScrollToBottom();
+        }
     }
 }

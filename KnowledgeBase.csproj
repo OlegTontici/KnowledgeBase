@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="ModalWindowsDataContext.cs" />
     <Compile Include="PropertyChangedNotifier.cs" />
+    <Compile Include="Resources\Tags.cs" />
     <Compile Include="SmartThought.cs" />
     <Compile Include="SmartThoughtsEditor\SmartThoughtsEditorControl.xaml.cs">
       <DependentUpon>SmartThoughtsEditorControl.xaml</DependentUpon>
@@ -150,5 +151,6 @@
   <ItemGroup>
     <Resource Include="SmartThoughtsEditor\MarkdownExample.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
