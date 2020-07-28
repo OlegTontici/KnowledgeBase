@@ -242,6 +242,8 @@ and how to style the output to appear the way you desire.
                 MainContent = smartThoughtsPreviewControl;
 
                 ShouldTagsBeShown = true;
+
+                tagsControlDataContext.RefreshTags();
             };
             smartThoughtsEditorControlDataContext.SmartThoughtTagEditRequired += (s, a) =>
             {

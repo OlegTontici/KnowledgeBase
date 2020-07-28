@@ -11,7 +11,8 @@ namespace KnowledgeBase.Tags
 {
     public class TagsControlDataContext : INotifyPropertyChanged
     {
-        private readonly List<Tag> _tags;
+        private List<Tag> _tags;
+        private readonly Resources.Tags _tagsResource;
 
         public ObservableCollection<Tag> Tags { get; set; }
 
@@ -19,6 +20,7 @@ namespace KnowledgeBase.Tags
         {
             _tags = tags.GetAll().Select(x => new Tag { Value = x.Value }).ToList();
             Tags = new ObservableCollection<Tag>(_tags);
+            _tagsResource = tags;
         }
 
         private ICommand selectTag;
@@ -59,16 +61,14 @@ namespace KnowledgeBase.Tags
 
                     if (string.IsNullOrWhiteSpace(tagSearchText))
                     {
-                        var usedTags = Tags.Where(t => t.IsSelected).ToList();
-                        foreach (var tag in _tags.Except(usedTags).ToList())
+                        foreach (var tag in _tags)
                         {
                             Tags.Add(tag);
                         }
                     }
                     else
                     {
-                        var usedTags = Tags.Where(t => t.IsSelected).ToList();
-                        foreach (var tag in _tags.Except(usedTags).Where(t => t.Value.IndexOf(tagSearchText, StringComparison.InvariantCultureIgnoreCase) != -1).ToList())
+                        foreach (var tag in _tags.Where(t => t.Value.IndexOf(tagSearchText, StringComparison.InvariantCultureIgnoreCase) != -1).ToList())
                         {
                             Tags.Add(tag);
                         }
@@ -100,6 +100,17 @@ namespace KnowledgeBase.Tags
 
         public EventHandler<string> TagSelected { get; set; }
         public EventHandler<string> TagRemoved { get; set; }
+
+        public void RefreshTags()
+        {
+            var newTags = _tagsResource.GetNewTags().Select(x => new Tag { Value = x.Value }).ToList();
+            _tags.AddRange(newTags);
+
+            foreach (var t in newTags.Where(t => t.Value.IndexOf(tagSearchText, StringComparison.InvariantCultureIgnoreCase) != -1).ToList())
+            {
+                Tags.Add(t);
+            }
+        }
 
         public class Tag : INotifyPropertyChanged
         {
