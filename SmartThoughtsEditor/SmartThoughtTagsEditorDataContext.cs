@@ -11,14 +11,14 @@ namespace KnowledgeBase.SmartThoughtsEditor
     public class SmartThoughtTagsEditorDataContext : PropertyChangedNotifier
     {
         private List<Tag> _tags;
-        private readonly Resources.Tags _tagresource;
+        private readonly Resources.Tags _tagsResource;
         private readonly Action<List<Tag>> _saveTagsAction;
         public ObservableCollection<Tag> UsedTags { get; set; }
         public ObservableCollection<Tag> AvailableTags { get; set; }
 
         public SmartThoughtTagsEditorDataContext(Resources.Tags tags, List<Tag> usedTags, Action<List<Tag>> saveTagsAction)
         {
-            _tagresource = tags;
+            _tagsResource = tags;
             _tags = tags.GetAll();
             UsedTags = new ObservableCollection<Tag>(usedTags);
             AvailableTags = new ObservableCollection<Tag>(_tags.Where(x => !usedTags.Any(y => y.Value == x.Value)).ToList());
@@ -109,7 +109,7 @@ namespace KnowledgeBase.SmartThoughtsEditor
                     var tag = new Tag(newTag);
                     AvailableTags.Add(tag);
                     _tags.Add(tag);
-                    _tagresource.Add(tag);
+                    _tagsResource.Add(tag);
                 }
             })); }
         }
