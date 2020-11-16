@@ -248,7 +248,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition Width="30"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Height="20" x:Name="NewTag"/>
+                        <TextBox Height="20" x:Name="NewTag" Text="{Binding NewTag}"/>
                         <Button Width="26" Height="26" Grid.Column="2" Command="{Binding AddNewTagCommand}" CommandParameter="{Binding ElementName=NewTag,Path=Text}" Click="Button_Click" Style="{DynamicResource IconButtonStyle}">
                             <Rectangle Width="12" Height="12">
                                 <Rectangle.Fill>

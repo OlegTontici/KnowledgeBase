@@ -31,6 +31,7 @@ namespace KnowledgeBase.SmartThoughtsEditor
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             AvailableTagsScroll.ScrollToBottom();
+            NewTag.Clear();
         }
     }
 }

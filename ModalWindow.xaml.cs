@@ -28,7 +28,6 @@ namespace KnowledgeBase
 
             DataContext = modalWindowsDataContext;
             base.DataContext = DataContext;
-            KnowledgeBaseDataContext.Setup();
         }
     }
 }

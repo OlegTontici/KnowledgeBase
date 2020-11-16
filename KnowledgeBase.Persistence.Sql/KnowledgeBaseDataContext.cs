@@ -1,5 +1,7 @@
 ﻿using Dapper;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace KnowledgeBase.Persistence.Sql
 {
@@ -44,6 +46,48 @@ namespace KnowledgeBase.Persistence.Sql
                 connection.Execute(createDbScript);
                 connection.Execute(createTablesScript);
             }
+        }
+
+        public static void AddTag(Tag tag)
+        {
+            var insertScript = "INSERT INTO [KnowledgeBase].[dbo].[Tags] (Value, DateAdded) Values (@Value, @DateAdded);";
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                connection.Execute(insertScript, tag);
+            }
+        }
+
+        public static void UpsertRangeTag(IList<Tag> tags)
+        {
+            var script = @"
+            IF EXISTS (SELECT * FROM [KnowledgeBase].[dbo].[Tags] WHERE Value = @Value)
+                UPDATE [KnowledgeBase].[dbo].[Tags] SET Value = @Value, DateAdded = @DateAdded WHERE Value = @Value;
+
+            ELSE 
+                INSERT INTO [KnowledgeBase].[dbo].[Tags] (Value, DateAdded) Values (@Value, @DateAdded);";
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                foreach (var tag in tags)
+                {
+                    connection.Execute(script, tag);
+                }
+            }
+        }
+
+        public static IList<Tag> GetAllTags()
+        {
+            var script = "select * from [KnowledgeBase].[dbo].[Tags]";
+            var result = new List<Tag>();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                result = connection.Query<Tag>(script).ToList();
+            }
+
+            return result;
         }
     }
 }

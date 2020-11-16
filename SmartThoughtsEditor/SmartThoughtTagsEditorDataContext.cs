@@ -102,13 +102,15 @@ namespace KnowledgeBase.SmartThoughtsEditor
 
         public ICommand AddNewTagCommand
         {
-            get { return addNewTagCommand ?? (addNewTagCommand = new CommandExecutor<string>(newTag => 
+            get { return addNewTagCommand ?? (addNewTagCommand = new CommandExecutor(() => 
             {
-                if (!string.IsNullOrWhiteSpace(newTag))
+                if (!string.IsNullOrWhiteSpace(NewTag))
                 {
-                    var tag = new Tag(newTag);
+                    var tag = new Tag(NewTag);
                     AvailableTags.Add(tag);
                     _tags.Add(tag);
+                    _tagsResource.UpsertRange(new List<Tag> { tag });
+                    NewTag = string.Empty;
                 }
             })); }
         }
@@ -123,5 +125,16 @@ namespace KnowledgeBase.SmartThoughtsEditor
             })); }
         }
 
+        private string _newTag;
+
+        public string NewTag
+        {
+            get { return _newTag; }
+            set 
+            { 
+                _newTag = value;
+                NotifyPropertyChanged(nameof(NewTag));
+            }
+        }
     }
 }

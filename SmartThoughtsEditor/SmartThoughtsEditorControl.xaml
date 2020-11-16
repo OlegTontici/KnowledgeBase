@@ -420,7 +420,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <ToggleButton Width="30" Height="30" Margin="5" x:Name="EditPreviewToggle" HorizontalAlignment="Center" Grid.ColumnSpan="2" Click="EditPreviewToggle_Click">
+        <ToggleButton Width="30" Height="30" Margin="5" x:Name="EditPreviewToggle" HorizontalAlignment="Center" Grid.ColumnSpan="2" Checked="EditPreviewToggle_Click" Unchecked="EditPreviewToggle_Click">
             <ToggleButton.Style>
                 <Style TargetType="ToggleButton" BasedOn="{StaticResource IconToggleButtonStyle}">
                     <Setter Property="Background" Value="Transparent"/>
@@ -561,7 +561,7 @@
                                   Margin="5"
                                   Document="{Binding ElementName=editSource, Path=Text, Converter={StaticResource TextToFlowDocumentConverter}}" />
 
-        <Button Width="60" Height="30" Content="Save" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Margin="0,0,3,0" x:Name="SaveButton" Visibility="Collapsed" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding SaveSmartThoughtCommand}"></Button>
+        <Button Width="60" Height="30" Content="Save" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Margin="0,0,3,0" x:Name="SaveButton" Visibility="Collapsed" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding SaveSmartThoughtCommand}" Click="SaveButton_Click"></Button>
 
     </Grid>
 </UserControl>

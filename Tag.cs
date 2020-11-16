@@ -7,6 +7,11 @@ namespace KnowledgeBase
         public string Value { get; set; }
         public DateTime DateAdded { get; set; }
 
+        public Tag()
+        {
+
+        }
+
         public Tag(string value)
         {
             Value = value;

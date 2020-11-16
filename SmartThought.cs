@@ -1,17 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 
 namespace KnowledgeBase
 {
-    public class SmartThought
+    public class SmartThought : INotifyPropertyChanged
     {
         public Guid Id { get; set; }
-        public string Title { get; set; }
-        public string FormattedContent { get; set; }
-        public string Preview { get; set; }
+        private string _title;
+
+        public string Title
+        {
+            get { return _title; }
+            set 
+            { 
+                _title = value;
+                NotifyPropertyChanged(nameof(Title));
+            }
+        }
+
+        private string _formattedContent;
+
+        public string FormattedContent
+        {
+            get { return _formattedContent; }
+            set 
+            { 
+                _formattedContent = value;
+                NotifyPropertyChanged(nameof(FormattedContent));
+            }
+        }
+        
+        private string _preview;
+
+        public string Preview
+        {
+            get { return _preview; }
+            set 
+            { 
+                _preview = value;
+                NotifyPropertyChanged(nameof(Preview));
+            }
+        }
         public DateTime DateAdded { get; set; }
-        public IList<string> Tags { get; set; }
+        private ObservableCollection<string> _tags;
+
+        public ObservableCollection<string> Tags
+        {
+            get { return _tags; }
+            set 
+            { 
+                _tags = value;
+                NotifyPropertyChanged(nameof(Tags));
+            }
+        }
 
         public SmartThought()
         {
@@ -19,12 +63,10 @@ namespace KnowledgeBase
             DateAdded = DateTime.Now;
         }
 
-        public SmartThought(string title, string formattedContent, string preview, IList<string> tags) : this()
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(string propertyName)
         {
-            Title = title;
-            FormattedContent = formattedContent;
-            Preview = preview;
-            Tags = tags;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

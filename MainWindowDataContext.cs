@@ -89,7 +89,6 @@ namespace KnowledgeBase
             var smartThoughtsEditorControlDataContext = new SmartThoughtsEditorControlDataContext(st => 
             {
                 SmartThoughts.Upsert(st);
-                _tags.UpsertRange(st.Tags.Select(x => new Tag(x)).ToList());
             }, _tags);
             smartThoughtsEditorControl = new SmartThoughtsEditorControl(smartThoughtsEditorControlDataContext);
 

@@ -45,7 +45,7 @@ namespace KnowledgeBase.Tags
         }
               
 
-        private string tagSearchText;
+        private string tagSearchText = string.Empty;
 
         public string TagSearchText
         {
@@ -103,10 +103,10 @@ namespace KnowledgeBase.Tags
 
         public void RefreshTags()
         {
-            var newTags = _tagsResource.GetNewTags().Select(x => new Tag { Value = x.Value }).ToList();
-            _tags.AddRange(newTags);
+            _tags = _tagsResource.GetAll().Select(x => new Tag { Value = x.Value }).ToList();
+            Tags.Clear();
 
-            foreach (var t in newTags.Where(t => t.Value.IndexOf(tagSearchText, StringComparison.InvariantCultureIgnoreCase) != -1).ToList())
+            foreach (var t in _tags.Where(t => t.Value.IndexOf(tagSearchText, StringComparison.InvariantCultureIgnoreCase) != -1).ToList())
             {
                 Tags.Add(t);
             }

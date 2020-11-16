@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -53,9 +54,8 @@ namespace KnowledgeBase.SmartThoughtsEditor
                 {
                     var dataContext = new SmartThoughtTagsEditorDataContext(_tags, smartThoughtUnderEdit.Tags.Select(x => new Tag(x)).ToList(), tags => 
                     {                        
-                        SmartThoughtUnderEdit.Tags = tags.Select(x => x.Value).ToList();
+                        SmartThoughtUnderEdit.Tags = new ObservableCollection<string>(tags.Select(x => x.Value).ToList());
                         SmartThoughtTagCloseRequired?.Invoke(this, null);
-                        SmartThoughtUnderEdit = SmartThoughtUnderEdit;
                     });
                     SmartThoughtTagEditRequired.Invoke(this, new SmartThoughtTagsEditor(dataContext));
                 }));

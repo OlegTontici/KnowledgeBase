@@ -7,7 +7,7 @@ namespace KnowledgeBase.Resources
     {
         private static IList<SmartThought> Data = new List<SmartThought>
         {
-            new SmartThought{ Tags = new List<string> { "DDD" }, Title = "DDD" , Preview = "Easing (or timing function) is what makes animations and motions look natural and clean. Nohthing really moves linearly in our physical world or else will look unnatural. Motions that are linear usually trigger suspicion in our brain. When we open a drawer or throw a ball, there is always a change in the speed over time and in general we specify the progress or the rate of change of a parameter over time using easing functions.Following is the list of some default easing functions and also you can utilize the bezier curve to create your own custom versions.", FormattedContent = @"# Markdown.Xaml #
+            new SmartThought{ Tags = new System.Collections.ObjectModel.ObservableCollection<string> { "DDD" }, Title = "DDD" , Preview = "Easing (or timing function) is what makes animations and motions look natural and clean. Nohthing really moves linearly in our physical world or else will look unnatural. Motions that are linear usually trigger suspicion in our brain. When we open a drawer or throw a ball, there is always a change in the speed over time and in general we specify the progress or the rate of change of a parameter over time using easing functions.Following is the list of some default easing functions and also you can utilize the bezier curve to create your own custom versions.", FormattedContent = @"# Markdown.Xaml #
 
 Markdown XAML is a port of the popular *MarkdownSharp* Markdown processor, but 
 with one very significant difference: Instead of rendering to a string 
@@ -70,7 +70,7 @@ and how to style the output to appear the way you desire.
 
 
 " },
-                new SmartThought{ Tags = new List<string> {"DDD", "CQRS" }, Title = "CQRS", Preview = "Easing (or timing function) is what makes animations and motions look natural and clean. Nohthing really moves linearly in our physical world or else will look unnatural. Motions that are linear usually trigger suspicion in our brain. When we open a drawer or throw a ball, there is always a change in the speed over time and in general we specify the progress or the rate of change of a parameter over time using easing functions.Following is the list of some default easing functions and also you can utilize the bezier curve to create your own custom versions.", FormattedContent = @"# Markdown.Xaml #
+                new SmartThought{ Tags = new System.Collections.ObjectModel.ObservableCollection<string> {"DDD", "CQRS" }, Title = "CQRS", Preview = "Easing (or timing function) is what makes animations and motions look natural and clean. Nohthing really moves linearly in our physical world or else will look unnatural. Motions that are linear usually trigger suspicion in our brain. When we open a drawer or throw a ball, there is always a change in the speed over time and in general we specify the progress or the rate of change of a parameter over time using easing functions.Following is the list of some default easing functions and also you can utilize the bezier curve to create your own custom versions.", FormattedContent = @"# Markdown.Xaml #
 
 Markdown XAML is a port of the popular *MarkdownSharp* Markdown processor, but 
 with one very significant difference: Instead of rendering to a string 
@@ -133,7 +133,7 @@ and how to style the output to appear the way you desire.
 
 
 " },
-                new SmartThought{ Tags = new List<string> { "Other" }, Title = "WMS", Preview = "Easing (or timing function) is what makes animations and motions look natural and clean. Nohthing really moves linearly in our physical world or else will look unnatural. Motions that are linear usually trigger suspicion in our brain. When we open a drawer or throw a ball, there is always a change in the speed over time and in general we specify the progress or the rate of change of a parameter over time using easing functions.Following is the list of some default easing functions and also you can utilize the bezier curve to create your own custom versions." },
+                new SmartThought{ Tags = new System.Collections.ObjectModel.ObservableCollection<string> { "Other" }, Title = "WMS", Preview = "Easing (or timing function) is what makes animations and motions look natural and clean. Nohthing really moves linearly in our physical world or else will look unnatural. Motions that are linear usually trigger suspicion in our brain. When we open a drawer or throw a ball, there is always a change in the speed over time and in general we specify the progress or the rate of change of a parameter over time using easing functions.Following is the list of some default easing functions and also you can utilize the bezier curve to create your own custom versions." },
 
         };
 

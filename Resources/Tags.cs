@@ -1,4 +1,4 @@
-﻿using System;
+﻿using KnowledgeBase.Persistence.Sql;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,30 +6,18 @@ namespace KnowledgeBase.Resources
 {
     public class Tags
     {
-        private readonly List<Tag> _tags;
-        private readonly List<Tag> _newTags;
-
         public Tags()
         {
-            _tags = new List<Tag> { new Tag("DDD"), new Tag("CQRS"), new Tag("Event Sourcing") };
-            _newTags = new List<Tag>();
+           
         }
         public List<Tag> GetAll()
         {
-            return _tags;
-        }
-
-        public List<Tag> GetNewTags()
-        {
-            var tags = new List<Tag>(_newTags);
-            _newTags.Clear();
-            return tags;
+            return KnowledgeBaseDataContext.GetAllTags().Select(x => new Tag { DateAdded = x.DateAdded, Value = x.Value }).ToList();
         }
 
         public void UpsertRange(IList<Tag> tags)
         {
-            var tagsToAdd = tags.Where(x => !_tags.Any(y => x.Value == y.Value)).ToList();
-            _tags.AddRange(tagsToAdd);
+            KnowledgeBaseDataContext.UpsertRangeTag(tags.Select(x => new Persistence.Sql.Tag { Value = x.Value, DateAdded = x.DateAdded }).ToList());
         }
     }
 }
