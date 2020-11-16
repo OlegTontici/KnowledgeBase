@@ -144,6 +144,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="KnowledgeBase.Persistence.Sql\KnowledgeBase.Persistence.Sql.csproj">
+      <Project>{4d63f9d0-98c1-4eb2-b527-35be7488ad16}</Project>
+      <Name>KnowledgeBase.Persistence.Sql</Name>
+    </ProjectReference>
     <ProjectReference Include="Markdown.Xaml\Markdown.Xaml.csproj">
       <Project>{34186c3b-c308-4cae-b462-db7b5f5e378c}</Project>
       <Name>Markdown.Xaml</Name>

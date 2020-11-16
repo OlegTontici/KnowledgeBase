@@ -26,11 +26,5 @@ namespace KnowledgeBase
             Preview = preview;
             Tags = tags;
         }
-
-        public bool IsTaggedBy(IList<string> tags)
-        {
-            var result = tags.Any(t => Tags.Contains(t));
-            return result;
-        }
     }
 }

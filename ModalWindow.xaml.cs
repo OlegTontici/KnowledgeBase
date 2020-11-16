@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KnowledgeBase.Persistence.Sql;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,7 @@ namespace KnowledgeBase
 
             DataContext = modalWindowsDataContext;
             base.DataContext = DataContext;
+            KnowledgeBaseDataContext.Setup();
         }
     }
 }
