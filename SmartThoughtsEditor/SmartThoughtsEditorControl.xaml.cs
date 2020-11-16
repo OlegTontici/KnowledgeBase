@@ -52,6 +52,9 @@ namespace KnowledgeBase.SmartThoughtsEditor
                 };
 
                 EditSourceContainer.BeginAnimation(Grid.WidthProperty, da);
+
+                SaveButton.Visibility = Visibility.Visible;
+                //SaveButton.Margin = new Thickness(this.ActualWidth / 2, 0, 0, 0);
             }
             else
             {
@@ -62,6 +65,9 @@ namespace KnowledgeBase.SmartThoughtsEditor
                 };
 
                 EditSourceContainer.BeginAnimation(Grid.WidthProperty, da);
+
+
+                SaveButton.Visibility = Visibility.Collapsed;
             }
         }
     }

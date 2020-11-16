@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="ModalWindowsDataContext.cs" />
     <Compile Include="PropertyChangedNotifier.cs" />
+    <Compile Include="Resources\SmartThoughts.cs" />
     <Compile Include="Resources\Tags.cs" />
     <Compile Include="SmartThought.cs" />
     <Compile Include="SmartThoughtsEditor\SmartThoughtsEditorControl.xaml.cs">

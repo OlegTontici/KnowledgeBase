@@ -49,6 +49,5 @@ namespace KnowledgeBase.SmartThoughtsPreview
         }
 
         public EventHandler<SmartThought> SmartThoughtSelected { get; set; }
-
     }
 }

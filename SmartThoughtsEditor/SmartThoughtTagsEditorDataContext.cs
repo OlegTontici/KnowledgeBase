@@ -109,7 +109,6 @@ namespace KnowledgeBase.SmartThoughtsEditor
                     var tag = new Tag(newTag);
                     AvailableTags.Add(tag);
                     _tags.Add(tag);
-                    _tagsResource.Add(tag);
                 }
             })); }
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace KnowledgeBase.Resources
 {
@@ -18,17 +19,17 @@ namespace KnowledgeBase.Resources
             return _tags;
         }
 
-        public void Add(Tag tag)
-        {
-            _tags.Add(tag);
-            _newTags.Add(tag);
-        }
-
         public List<Tag> GetNewTags()
         {
             var tags = new List<Tag>(_newTags);
             _newTags.Clear();
             return tags;
+        }
+
+        public void UpsertRange(IList<Tag> tags)
+        {
+            var tagsToAdd = tags.Where(x => !_tags.Any(y => x.Value == y.Value)).ToList();
+            _tags.AddRange(tagsToAdd);
         }
     }
 }
